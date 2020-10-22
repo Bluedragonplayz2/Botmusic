@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-public class Kick extends ListenerAdapter {
+public class Kickevent extends ListenerAdapter {
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent e) {
         if(MsSQL.SQL_sel("kmsgcheck:" + e.getGuild().getId()).equalsIgnoreCase("1")) {
             List<TextChannel> channels = e.getGuild().getTextChannelsByName("welcome", true);

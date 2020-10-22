@@ -3,18 +3,18 @@ package me.bluedragonplayz2.dragonassistance;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.bluedragonplayz2.dragonassistance.Command.Massage.Eight_ball;
+import me.bluedragonplayz2.dragonassistance.Command.Music.Play;
 import me.bluedragonplayz2.dragonassistance.Command.Ping;
 import me.bluedragonplayz2.dragonassistance.Command.Punishment.Ban;
 import me.bluedragonplayz2.dragonassistance.Command.Punishment.kick;
+import me.bluedragonplayz2.dragonassistance.Event.Member.Kickevent;
 import me.bluedragonplayz2.dragonassistance.Event.Setup.Guild_join;
 import me.bluedragonplayz2.dragonassistance.Event.Member.Join;
-import me.bluedragonplayz2.dragonassistance.Event.Member.Kick;
 import me.bluedragonplayz2.dragonassistance.Event.Setup.Setup;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
-import java.io.Console;
 import java.net.UnknownHostException;
 import java.util.EnumSet;
 
@@ -36,6 +36,7 @@ public class Bot {
                 .addCommand(new Eight_ball())
                 .addCommand(new kick())
                 .addCommand(new Ban())
+                .addCommand(new Play())
                 .setHelpWord("help");
         CommandClient client = builder.build();
         String token;
@@ -47,29 +48,17 @@ public class Bot {
         JDABuilder.create(token, intents)
                 .addEventListeners(new Listerner())
                 .addEventListeners(new Join())
-                .addEventListeners(new Kick())
                 .addEventListeners(new Sandbox())
                 .addEventListeners(new Guild_join())
                 .addEventListeners(new Setup())
+                .addEventListeners(new Kickevent())
                 .addEventListeners(client)
                 .build();
     }
-    public static void main (String[]args) throws LoginException, UnknownHostException {
+    public static void main (String[]args) throws UnknownHostException, LoginException {
         MsSQL mssql = new MsSQL();
         mssql.MsSql();
         bot();
-        Console cnsl= System.console();
-        if (cnsl == null) {
-            System.out.println(
-                    "No console available");
-            return;
-        }
-        String input = "start";
-        while (!input.equals("stop"))
-        {
-            input = cnsl.readLine();
-        }
-        System.exit(0);
 
     }
 }

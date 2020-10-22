@@ -8,8 +8,8 @@ import net.dv8tion.jda.api.entities.Member;
 
 public class Ban extends Command {
     public Ban(){
-        this.name = "kick";
-        this.help = "kick a player";
+        this.name = "ban";
+        this.help = "ban a player";
     }
     @Override
     protected void execute(CommandEvent e) {

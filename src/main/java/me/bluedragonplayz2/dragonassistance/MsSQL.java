@@ -3,6 +3,7 @@ package me.bluedragonplayz2.dragonassistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
 public class MsSQL {
@@ -10,7 +11,9 @@ public class MsSQL {
 
     public void MsSql() {
         Connection conn = null;
+        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
         try {
+            Class.forName(driver).getDeclaredConstructor().newInstance();
             conn = DriverManager.getConnection(Config.get("sql_config"));
 
             if (conn != null) {
@@ -21,11 +24,19 @@ public class MsSQL {
                 LOGGER.info("Product version: " + dm.getDatabaseProductVersion());
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             LOGGER.info("SQL ERROR!!!!!!");
             LOGGER.info("shutting down immidiatly");
             System.exit(0);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (conn != null && !conn.isClosed()) {
